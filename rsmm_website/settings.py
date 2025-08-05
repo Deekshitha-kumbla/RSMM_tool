@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-#g6qgbe95_3*@-t4t*6b)xir3rd2-#2sv63!&4hxfr*1z*cnco
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['rsmm-webapp.onrender.com', 'localhost', '127.0.0.1']
+
 
 
 # Application definition
