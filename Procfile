@@ -1,0 +1,1 @@
+web: gunicorn rsmm_website.wsgi
