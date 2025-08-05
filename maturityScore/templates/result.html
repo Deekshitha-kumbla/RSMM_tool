@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RSMM Score Result</title>
+    <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        background-color: #f4f4f4;
+        padding: 20px;
+      }
+
+      h1,
+      h2 {
+        color: #333;
+      }
+
+      .score-summary {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      .section {
+        background-color: rgb(255, 255, 255);
+        color: #f8f8f2;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-size: 14px;
+      }
+
+      summary {
+        font-size: 16px;
+        cursor: pointer;
+        color: #007acc;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .json-box {
+        background-color: #2b3a42;
+        color: #d4d4d4;
+        padding: 15px;
+        border-radius: 5px;
+        font-family: monospace;
+        white-space: pre-wrap;
+        margin-top: 10px;
+      }
+
+      a button {
+        padding: 10px 16px;
+        background-color: #007acc;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      a button:hover {
+        background-color: #005f99;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RSMM Score Results</h1>
+
+    <div class="score-summary">
+      <h2>Score: {{ score.total }} / 50</h2>
+    </div>
+
+    {% for key, val in score.breakdown.items %}
+    <details class="section">
+      <summary>{{ key }}</summary>
+      <div class="json-box">{{ val|pprint }}</div>
+    </details>
+    {% endfor %}
+    <form method="post" action="{% url 'generate_table' %}">
+      {% csrf_token %}
+      <!-- Pass the score data if needed via session or hidden field -->
+      <button type="submit">Generate Table View</button>
+    </form>
+    <p>For further analysis, click below:</p>
+    <a href="{% url 'userinputs' %}">
+      <button>Continue to Questions</button>
+    </a>
+  </body>
+</html>

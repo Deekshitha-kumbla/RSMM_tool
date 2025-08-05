@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RSMM Questions</title>
+    <script>
+      async function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const response = await fetch("{% url 'calculate_score' %}", {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        document.getElementById("output").textContent = JSON.stringify(
+          result,
+          null,
+          4
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Answer the following:</h2>
+    <form onsubmit="handleSubmit(event)">
+      <label>Does the repository have automated tests?</label><br />
+      <input type="radio" name="has_tests" value="yes" required /> Yes
+      <input type="radio" name="has_tests" value="no" /> No<br /><br />
+
+      <label>Is there a CI/CD pipeline configured?</label><br />
+      <input type="radio" name="has_ci" value="yes" required /> Yes
+      <input type="radio" name="has_ci" value="no" /> No<br /><br />
+
+      <label>Is developer documentation available?</label><br />
+      <input type="radio" name="has_docs" value="yes" required /> Yes
+      <input type="radio" name="has_docs" value="no" /> No<br /><br />
+
+      <button type="submit">Calculate Additional Score</button>
+    </form>
+
+    <h3>Result:</h3>
+    <pre id="output" style="background: #eee; padding: 10px"></pre>
+  </body>
+</html>
