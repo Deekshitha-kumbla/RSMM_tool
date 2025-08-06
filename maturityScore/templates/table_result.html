@@ -1,3 +1,31 @@
-<h2>Generated Table</h2>
-<div class="table-responsive">{{ html_table|safe }}</div>
-<a href="{% url 'generate_table' %}" class="btn btn-primary mt-3">Back</a>
+{% extends "base.html" %} {% block title %} Generated Table {% endblock %}
+{%block content %}
+<div
+  class="table-responsive"
+  style="
+    max-width: 800px;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin: 0 auto;
+  "
+>
+  {{ html_table|safe }}
+</div>
+
+<div
+  style="
+    margin-top: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  "
+>
+  <h4>Focus Area Maturity Levels</h4>
+  <ul>
+    {% for area, level in maturity_levels.items %}
+    <li><strong>{{ area }}</strong>: Level {{ level }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
