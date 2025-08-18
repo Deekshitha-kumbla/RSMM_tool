@@ -6,7 +6,8 @@ from .score import Score
 from django.http import HttpResponse
 from django.utils.html import format_html
 from django.shortcuts import redirect
-
+import json
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 def home(request):
     return render(request, "home.html")
@@ -24,6 +25,24 @@ def check_score(request):
 
     return redirect("home")
 
+@xframe_options_exempt
+def rsmm_focus_view(request):
+    def build_hierarchy(name, node):
+        if isinstance(node, dict):
+            return {
+                "name": name,
+                "children": [build_hierarchy(k, v) for k, v in node.items()]
+            }
+        else:
+            # Leaf node (practice string)
+            return {"name": f"{node}"}
+
+    rsmm_data = build_hierarchy("RSMM", Score)
+
+    return render(request, "rsmm_visual.html", {
+        "focus_json": json.dumps(rsmm_data)
+    })
+    
 def generate_true_false_matrix(score_definition, analysis_result):
     rows = []
     breakdown = analysis_result.get("breakdown", {})  

@@ -8,11 +8,16 @@ import base64
 
 
 class GetSPMData:
-    
-  token= os.getenv('GITHUB_TOKEN')
-  headers = {"Accept": "application/vnd.github+json",
-                
-        "Authorization": f"token {token}"}
+  load_dotenv() 
+  token = os.getenv('GITHUB_TOKEN')
+  
+  headers = {
+    "Accept": "application/vnd.github.v3+json",  
+    "Authorization": f"Bearer {token}"
+               
+}
+  
+
   GITHUB_API_BASE= "https://api.github.com"
   def __init__(self):
         self.data = None
@@ -33,20 +38,22 @@ class GetSPMData:
 
         "Communicate roadmap": False
     }
-
+    
     # Issue Tracker
     if repo_data.get("has_issues"):
         capabilities["File issues in an issue tracker"] = True
 
     # Feedback Handling (basic heuristic)
     comments_url = f"https://api.github.com/repos/{owner}/{repo}/issues/comments"
-    comments_resp = requests.get(comments_url)
+    comments_resp = requests.get(comments_url, headers=GetSPMData.headers)
+    
     if comments_resp.ok and len(comments_resp.json()) > 0:
+        
         capabilities["Act on feedback"] = True
 
     # Explicit Requirements via Releases
     releases_url = f"https://api.github.com/repos/{owner}/{repo}/releases"
-    releases_resp = requests.get(releases_url)
+    releases_resp = requests.get(releases_url, headers=GetSPMData.headers)
     if releases_resp.ok and len(releases_resp.json()) > 0:
         capabilities["Manage requirements explicitly"] = True
         capabilities["Perform release management"] = True
@@ -71,7 +78,10 @@ class GetSPMData:
   @staticmethod
   def get_file_exists(owner, repo, path  ):
        url = f"{GetSPMData.GITHUB_API_BASE}/repos/{owner}/{repo}/contents/{path}"
+       
        response = requests.get(url, headers=GetSPMData.headers)
+       
+       
        return response.status_code == 200
   @staticmethod
   def get_file_content(owner, repo, path):

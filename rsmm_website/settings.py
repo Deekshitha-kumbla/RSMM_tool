@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'maturityScore'
+    'maturityScore',
+    'rest_framework',
 ]
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]

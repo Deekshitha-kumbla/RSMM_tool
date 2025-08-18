@@ -3,14 +3,10 @@ from dotenv import load_dotenv
 from .get_softwarepmdata import GetSPMData
 
 spmdata = GetSPMData()
-load_dotenv()
+
 
 class GetCommunityData:
-    token = os.getenv('GITHUB_TOKEN')
-    headers = {
-        "Accept": "application/vnd.github+json",
-        "Authorization": f"token {token}"
-    }
+    
 
     @staticmethod
     def get_file_content_lower(owner, repo, fname):

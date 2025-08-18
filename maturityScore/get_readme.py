@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 
 class GetReadme:
-    
+    load_dotenv()
     token= os.getenv('GITHUB_TOKEN')
     def __init__(self):
         self.data = None

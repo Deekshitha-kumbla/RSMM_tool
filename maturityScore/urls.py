@@ -8,6 +8,7 @@ urlpatterns = [
     path('result/', views.calculate_score, name='calculate_score'),  # JSON response
      path('check-score/', views.check_score, name='check_score'),
     path("generate-table/", views.generate_table, name="generate_table"),
+    path("rsmm/", views.rsmm_focus_view, name="rsmm_focus_view")
 
 
 ]

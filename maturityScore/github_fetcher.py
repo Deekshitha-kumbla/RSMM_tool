@@ -29,10 +29,9 @@ def analyze_repo(repo_url):
     owner, repo = extract_repo_details(repo_url)
 
     headers = {
-       "Accept": "application/vnd.github.v3+json",
-        "Authorization": f"token {token}"
-
-    }
+    "Accept": "application/vnd.github.v3+json", 
+    "Authorization": f"Bearer {token}"           
+}
 
     repo_data = requests.get(f"{GITHUB_API}/repos/{owner}/{repo}", headers=headers).json()
     commits = requests.get(f"{GITHUB_API}/repos/{owner}/{repo}/commits", headers=headers).json()

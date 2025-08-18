@@ -9,10 +9,7 @@ from .get_softwarepmdata import GetSPMData
 spmdata=GetSPMData()
 class GetRSMData:
     
-  token= os.getenv('GITHUB_TOKEN')
-  headers = {"Accept": "application/vnd.github+json",
-                
-        "Authorization": f"token {token}"}
+
   GITHUB_API_BASE= "https://api.github.com"
 
   def __init__(self):
@@ -86,17 +83,26 @@ class GetRSMData:
             "README.md", "SECURITY.md", "docs/eol.md", "docs/maintenance.md"
         ], ["end-of-life", "eol", "sunset", "deprecation", "maintenance mode"])
     }
-    
+   
+  @staticmethod
+  def check_make_code_citable(owner, repo):
+    # Step 1: Check if CITATION.cff file exists
+    #if GetSPMData.get_file_exists(owner, repo, "CITATION.cff"):
+        
+        return GetSPMData.get_file_exists(owner, repo, "CITATION.cff")
+
+    # Step 2: If not, search for citation keywords in README.md
+    #return GetRSMData.find_keywords_in_files(
+       # owner,
+       # repo,
+       # ["README.md"],["doi", "zenodo", "how to cite", "citation"])
   @staticmethod
   def detect_visibility_practices(owner, repo):
 
     
 
        return {
-        "Make code citable":  GetRSMData.find_keywords_in_files(
-            owner, repo,["CITATION.cff", "README.md"],
-            ["doi", "zenodo", "how to cite", "citation"]
-        ),
+        "Make code citable":  GetRSMData.check_make_code_citable(owner, repo),
 
         "Enable indexing of project meta-data":  GetRSMData.find_keywords_in_files(
           owner, repo,  ["CITATION.cff", "codemeta.json", "README.md"],

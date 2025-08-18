@@ -7,15 +7,17 @@ import requests
 
 spmdata = GetSPMData()
 communitydata=GetCommunityData()
-load_dotenv()
+
 
 
 class GetAdoptabilityData:
+    load_dotenv()
     token = os.getenv('GITHUB_TOKEN')
+    
     headers = {
-        "Accept": "application/vnd.github+json",
-        "Authorization": f"token {token}"
-    }
+    "Accept": "application/vnd.github.v3+json", 
+    "Authorization": f"token {token}"           
+}
     COMMON_TECH = ["python", "r", "java", "c++", "javascript"]
     SCI_WORKFLOW_TOOLS = ["jupyter", "notebook", "snakemake", "nextflow", "scipy", "numpy", "matplotlib", "pandas"]
     RELEVANCE_KEYWORDS = ["technology review", "evaluate tools", "periodic review", "tool relevance"]
@@ -112,8 +114,8 @@ class GetAdoptabilityData:
 
         # Check languages used
         languages_url = f"https://api.github.com/repos/{owner}/{repo}/languages"
-        headers = {"Authorization": f"token {os.getenv('GITHUB_TOKEN')}"}
-        langs = requests.get(languages_url, headers=headers).json()
+       
+        langs = requests.get(languages_url, headers=GetAdoptabilityData.headers).json()
         detected_langs = [lang.lower() for lang in langs.keys()]
         common_tech_used = any(lang in GetAdoptabilityData.COMMON_TECH for lang in detected_langs)
 
